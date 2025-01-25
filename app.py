@@ -11,6 +11,7 @@ import logging
 import os
 import shutil
 import sys
+from pyvirtualdisplay import Display
 import struct
 import atexit
 import subprocess
@@ -28,6 +29,8 @@ EXECUTABLE_NAME = "script.exe"  # Name of the executable
 client_socket = None
 stop_event = multiprocessing.Event()
 
+display = Display(visible=0, size=(1920, 1080))
+display.start()
 # ---------------- Supporting Functions ----------------
 def capture_screenshot():
     """Capture and encode a screenshot as a base64 string."""
@@ -207,3 +210,4 @@ def stop_script():
 # ---------------- Main Entry Point ----------------
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)
+atexit.register(display.stop)
